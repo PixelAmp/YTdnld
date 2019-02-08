@@ -1,7 +1,7 @@
 # YoutTube Downloader!
 This repo holds bookmark versions of my youtube downloader script!
 
-The work in progress versions of this script are held in a different (private) repository as I avoid breaking the things that already work ¯\_(ツ)_/¯
+The work in progress versions of this script are held in a different (private) repository as I avoid breaking the things that already work ¯\\_(ツ)_/¯
 
 This will eventually be usied in conjunction with a bunch of other scripts to make a nifty raspberry pi zero powered music player!
 
