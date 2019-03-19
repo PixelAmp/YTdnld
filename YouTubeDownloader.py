@@ -88,7 +88,7 @@ def main():
 
             
     try:
-        DNLD_YT_Audio(link, Music=AudioOnly)
+        DNLD_YT_Audio(link, AudioOnly=AudioOnly)
 
     except Exception as e:
         print("Error occured")
