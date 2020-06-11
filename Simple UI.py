@@ -1,10 +1,17 @@
 import os, sys, time
 import pytube #this is the only module that needs to be downloaded
 import playlist    #Using an edited playlist script from pytube that adds ability to download only audio, among other things
-from tkinter import *
+from tkinter.filedialog import askopenfilename
+from tkinter.filedialog import askdirectory
+from tkinter import Tk
+from tkinter import Label
+from tkinter import Entry
+from tkinter import Button
 from tkinter import messagebox
 from tkinter import filedialog
 from tkinter import scrolledtext
+from tkinter import BooleanVar
+from tkinter import Checkbutton
 
 def DNLD_YT_Audio(ytURL, AudioOnly, MP3, DnldDest, PrevIMG, VidInfo):
     """
@@ -32,6 +39,11 @@ def DNLD_YT_Audio(ytURL, AudioOnly, MP3, DnldDest, PrevIMG, VidInfo):
             if AudioOnly:
                 video = yt.streams.filter(only_audio=AudioOnly, file_extension="mp4").order_by('abr').desc().first()
             else:
+                '''
+                Note: progressive videos are the ones that have BOTH audio and video. They usually max out at 720p, but are often 360p max
+                The ones that appear with yt.streams.all() are ONLY video, despite being higher resolution
+                Also, order_by('resolution') might be broken and not actually sort anything, so double check when downloading to make sure you actually get the best file
+                '''
                 video = yt.streams.filter(progressive=True, subtype='mp4').order_by('resolution').desc().first()
 
             video.download(dest)
@@ -59,7 +71,9 @@ def getVidInfo(ytURL,VidInfo):
         messagebox.showinfo('Error', 'No Video was linked!')
     
 def SelectDir(DnldDest):
-    DnldDest.configure(text=filedialog.askdirectory(initialdir=os.getcwd()))
+    location = filedialog.askdirectory(initialdir=os.getcwd())
+    if location:
+        DnldDest.configure(text=location)
 
 
 def main():
@@ -81,10 +95,10 @@ def main():
     ytURL = Entry(window,width=25)
     ytURL.grid(row=0,column=1)#, sticky=W)
 
-    audioCheck = Checkbutton(window, text='Audio Only?', var=AudioOnly,anchor=W, bg=backgoundColor)
+    audioCheck = Checkbutton(window, text='Audio Only?', var=AudioOnly,anchor='w', bg=backgoundColor)
     audioCheck.grid(row=1,column=0)#, sticky=W)
 
-    ToMp3 = Checkbutton(window, text='Change to Mp3', var=MP3, anchor=W, bg=backgoundColor)
+    ToMp3 = Checkbutton(window, text='Change to Mp3', var=MP3, anchor='w', bg=backgoundColor)
     ToMp3.grid(row=1,column=1)#, sticky=W)
 
     preBtn = Button(window, text="Check Name", command= lambda: getVidInfo(ytURL,VidInfo), bg=buttonColor)
